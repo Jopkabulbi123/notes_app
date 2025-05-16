@@ -1,25 +1,30 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Notes</title>
+    <title>Мої нотатки</title>
+    <style>
+        body { font-family: Arial; max-width: 800px; margin: 0 auto; }
+        .note { border: 1px solid #ddd; padding: 15px; margin-bottom: 10px; }
+        .category { color: #666; font-style: italic; }
+        .reminder { color: #d9534f; font-weight: bold; }
+    </style>
 </head>
 <body>
-    <h1>My Notes</h1>
+    <h1>Мої нотатки</h1>
 
-    {% if notes %}
-    <ul>
-        {% for note in notes %}
-        <li>
-            <h3>{{ note.title }}</h3>
-            <p>{{ note.content }}</p>
-            <small>Created: {{ note.created_at }}</small>
-        </li>
-        {% endfor %}
-    </ul>
-    {% else %}
-    <p>No notes available.</p>
-    {% endif %}
+    {% for note in notes %}
+    <div class="note">
+        <h2>{{ note.title }}</h2>
+        <p>{{ note.text }}</p>
+
+        {% if note.category %}
+        <p class="category">Категорія: {{ note.category.title }}</p>
+        {% endif %}
+
+        {% if note.reminder %}
+        <p class="reminder">Нагадування: {{ note.reminder }}</p>
+        {% endif %}
+    </div>
+    {% endfor %}
 </body>
 </html>
