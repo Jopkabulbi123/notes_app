@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>{{ note.title }}</h1>
+
+<div class="card">
+    <div class="card-body">
+        {% if note.category %}
+        <p><strong>Категорія:</strong> {{ note.category }}</p>
+        {% endif %}
+        
+        <p><strong>Текст:</strong></p>
+        <div class="border p-3 mb-3">{{ note.text|linebreaks }}</div>
+        
+        {% if note.reminder %}
+        <p><strong>Нагадування:</strong> {{ note.reminder|date:"Y-m-d H:i" }}</p>
+        {% endif %}
+        
+        <p><small>Створено: {{ note.created_at|date:"Y-m-d H:i" }}</small></p>
+        <p><small>Оновлено: {{ note.updated_at|date:"Y-m-d H:i" }}</small></p>
+        
+        <div class="mt-4">
+            <a href="{% url 'note_edit' note.pk %}" class="btn btn-primary">Редагувати</a>
+            <a href="{% url 'note_delete' note.pk %}" class="btn btn-danger">Видалити</a>
+            <a href="{% url 'note_list' %}" class="btn btn-secondary">Назад до списку</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

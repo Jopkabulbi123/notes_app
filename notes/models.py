@@ -2,17 +2,17 @@ from django.db import models
 
 
 class Category(models.Model):
-    title = models.CharField(max_length=100, verbose_name="Назва категорії")
+    name = models.CharField(max_length=100)
 
     def __str__(self):
-        return self.title
+        return self.name
 
 
 class Note(models.Model):
-    title = models.CharField(max_length=200, verbose_name="Заголовок")
-    text = models.TextField(verbose_name="Текст нотатки")
-    reminder = models.DateTimeField(null=True, blank=True, verbose_name="Нагадування")
-    category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True, blank=True, verbose_name="Категорія")
+    title = models.CharField(max_length=100)
+    content = models.TextField()
+    category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return self.title

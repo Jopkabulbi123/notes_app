@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>Мої нотатки</h1>
+
+<div class="card mb-4">
+    <div class="card-body">
+        <form method="get">
+            {{ filter_form.as_p }}
+            <button type="submit" class="btn btn-primary">Фільтрувати</button>
+            <a href="{% url 'note_list' %}" class="btn btn-secondary">Скинути</a>
+        </form>
+    </div>
+</div>
+
+<a href="{% url 'note_create' %}" class="btn btn-success mb-3">Створити нову нотатку</a>
+
+<div class="list-group">
+    {% for note in notes %}
+    <div class="list-group-item">
+        <div class="d-flex w-100 justify-content-between">
+            <h5 class="mb-1">
+                <a href="{% url 'note_detail' note.pk %}">{{ note.title }}</a>
+            </h5>
+            <small>{{ note.created_at|date:"Y-m-d H:i" }}</small>
+        </div>
+        {% if note.category %}
+        <span class="badge bg-primary">{{ note.category }}</span>
+        {% endif %}
+        {% if note.reminder %}
+        <span class="badge bg-warning text-dark">Нагадування: {{ note.reminder|date:"Y-m-d H:i" }}</span>
+        {% endif %}
+        <div class="mt-2">
+            <a href="{% url 'note_edit' note.pk %}" class="btn btn-sm btn-outline-primary">Редагувати</a>
+            <a href="{% url 'note_delete' note.pk %}" class="btn btn-sm btn-outline-danger">Видалити</a>
+        </div>
+    </div>
+    {% empty %}
+    <div class="alert alert-info">Нотаток не знайдено</div>
+    {% endfor %}
+</div>
+{% endblock %}

@@ -1,12 +1,6 @@
 from django.contrib import admin
-from .models import Category, Note
-
-@admin.register(Category)
-class CategoryAdmin(admin.ModelAdmin):
-    list_display = ('title',)
+from .models import Note
 
 @admin.register(Note)
 class NoteAdmin(admin.ModelAdmin):
-    list_display = ('title', 'category', 'reminder')
-    list_filter = ('category',)
-    search_fields = ('title', 'text')
+    list_display = ('title', 'category', 'created_at')
