@@ -13,6 +13,7 @@ class Note(models.Model):
     content = models.TextField()
     category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
+    reminder = models.DateTimeField(null=True, blank=True)
 
     def __str__(self):
         return self.title
