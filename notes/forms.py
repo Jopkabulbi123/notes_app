@@ -4,7 +4,7 @@ from .models import Note, Category
 class NoteForm(forms.ModelForm):
     class Meta:
         model = Note
-        fields = ['title', 'content', 'category']
+        fields = ['title', 'text', 'category', 'reminder']
 
 class NoteFilterForm(forms.Form):
     search = forms.CharField(required=False, label='Пошук')

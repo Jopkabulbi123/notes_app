@@ -5,17 +5,40 @@ from .forms import NoteForm
 from django.urls import reverse_lazy
 from .forms import NoteFilterForm
 
+from django.shortcuts import render, redirect
+from django.contrib import messages
+from .models import Note, Category
+from .forms import NoteForm
+
 
 def note_create(request):
+    if not Category.objects.exists():
+        Category.objects.create(name="Загальне")
+        messages.info(request, "Автоматично створено категорію 'Загальне'")
+
     if request.method == 'POST':
         form = NoteForm(request.POST)
         if form.is_valid():
-            form.save()
+            note = form.save(commit=False)
+
+            if not note.category:
+                note.category = Category.objects.first()
+                messages.info(request, f"Нотатку автоматично віднесено до категорії '{note.category}'")
+
+            note.save()
+            messages.success(request, f"Нотатку '{note.title}' успішно збережено!")
             return redirect('note_list')
+        else:
+            for field, errors in form.errors.items():
+                for error in errors:
+                    messages.error(request, f"Помилка у полі '{field}': {error}")
     else:
         form = NoteForm()
-    return render(request, 'notes/note_form.html', {'form': form})
 
+    return render(request, 'notes/note_form.html', {
+        'form': form,
+        'categories': Category.objects.all()
+    })
 
 def note_detail(request, pk):
     note = get_object_or_404(Note, pk=pk)

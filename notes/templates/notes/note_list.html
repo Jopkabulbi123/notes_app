@@ -1,42 +1,74 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<h1>Мої нотатки</h1>
+<div class="row mb-4">
+    <div class="col-md-8">
+        <h1><i class="bi bi-journal-text"></i> Мої нотатки</h1>
+    </div>
+    <div class="col-md-4 text-end">
+        <a href="{% url 'note_create' %}" class="btn btn-success">
+            <i class="bi bi-plus-circle"></i> Створити
+        </a>
+    </div>
+</div>
 
-<div class="card mb-4">
+<div class="card mb-4 border-0 shadow">
     <div class="card-body">
-        <form method="get">
-            {{ filter_form.as_p }}
-            <button type="submit" class="btn btn-primary">Фільтрувати</button>
-            <a href="{% url 'note_list' %}" class="btn btn-secondary">Скинути</a>
+        <form method="get" class="row g-3">
+            <div class="col-md-4">
+                <label for="id_search" class="form-label">Пошук</label>
+                {{ filter_form.search }}
+            </div>
+            <div class="col-md-3">
+                <label for="id_category" class="form-label">Категорія</label>
+                {{ filter_form.category }}
+            </div>
+            <div class="col-md-5 d-flex align-items-end">
+                <button type="submit" class="btn btn-primary me-2">
+                    <i class="bi bi-funnel"></i> Фільтрувати
+                </button>
+                <a href="{% url 'note_list' %}" class="btn btn-outline-secondary">
+                    <i class="bi bi-arrow-counterclockwise"></i> Скинути
+                </a>
+            </div>
         </form>
     </div>
 </div>
 
-<a href="{% url 'note_create' %}" class="btn btn-success mb-3">Створити нову нотатку</a>
-
+{% if notes %}
 <div class="list-group">
     {% for note in notes %}
-    <div class="list-group-item">
+    <div class="list-group-item mb-2 rounded shadow-sm">
         <div class="d-flex w-100 justify-content-between">
             <h5 class="mb-1">
-                <a href="{% url 'note_detail' note.pk %}">{{ note.title }}</a>
+                <a href="{% url 'note_detail' note.pk %}" class="text-decoration-none">{{ note.title }}</a>
             </h5>
-            <small>{{ note.created_at|date:"Y-m-d H:i" }}</small>
+            <small class="text-muted">{{ note.created_at|date:"Y-m-d H:i" }}</small>
         </div>
-        {% if note.category %}
-        <span class="badge bg-primary">{{ note.category }}</span>
-        {% endif %}
-        {% if note.reminder %}
-        <span class="badge bg-warning text-dark">Нагадування: {{ note.reminder|date:"Y-m-d H:i" }}</span>
-        {% endif %}
+        <div class="my-2">
+            {% if note.category %}
+            <span class="badge bg-primary me-1">{{ note.category }}</span>
+            {% endif %}
+            {% if note.reminder %}
+            <span class="badge bg-warning text-dark">
+                <i class="bi bi-alarm"></i> {{ note.reminder|date:"Y-m-d H:i" }}
+            </span>
+            {% endif %}
+        </div>
         <div class="mt-2">
-            <a href="{% url 'note_edit' note.pk %}" class="btn btn-sm btn-outline-primary">Редагувати</a>
-            <a href="{% url 'note_delete' note.pk %}" class="btn btn-sm btn-outline-danger">Видалити</a>
+            <a href="{% url 'note_edit' note.pk %}" class="btn btn-sm btn-outline-primary me-1">
+                <i class="bi bi-pencil"></i> Редагувати
+            </a>
+            <a href="{% url 'note_delete' note.pk %}" class="btn btn-sm btn-outline-danger">
+                <i class="bi bi-trash"></i> Видалити
+            </a>
         </div>
     </div>
-    {% empty %}
-    <div class="alert alert-info">Нотаток не знайдено</div>
     {% endfor %}
 </div>
+{% else %}
+<div class="alert alert-info shadow">
+    <i class="bi bi-info-circle"></i> Нотаток не знайдено
+</div>
+{% endif %}
 {% endblock %}

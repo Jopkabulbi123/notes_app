@@ -1,13 +1,25 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<h1>Підтвердження видалення</h1>
+<div class="card shadow">
+    <div class="card-header bg-danger text-white">
+        <h2><i class="bi bi-exclamation-triangle"></i> Підтвердження видалення</h2>
+    </div>
+    <div class="card-body">
+        <p>Ви впевнені, що хочете видалити нотатку <strong>"{{ object }}"</strong>?</p>
+        <p class="text-muted">Цю дію неможливо скасувати.</p>
 
-<p>Ви впевнені, що хочете видалити нотатку "{{ object }}"?</p>
-
-<form method="post">
-    {% csrf_token %}
-    <button type="submit" class="btn btn-danger">Так, видалити</button>
-    <a href="{% url 'note_detail' object.pk %}" class="btn btn-secondary">Скасувати</a>
-</form>
+        <form method="post" class="mt-4">
+            {% csrf_token %}
+            <div class="d-flex justify-content-between">
+                <button type="submit" class="btn btn-danger">
+                    <i class="bi bi-trash"></i> Так, видалити
+                </button>
+                <a href="{% url 'note_detail' object.pk %}" class="btn btn-secondary">
+                    <i class="bi bi-x-circle"></i> Скасувати
+                </a>
+            </div>
+        </form>
+    </div>
+</div>
 {% endblock %}
