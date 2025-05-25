@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="card shadow-lg p-3 mb-5 bg-body rounded" style="max-width: 500px; margin: 0 auto;">
+    <div class="card-body">
+        <h2 class="card-title text-center">Вхід</h2>
+
+        {% if messages %}
+        <div class="alert alert-danger">
+            {% for message in messages %}
+                {{ message }}
+            {% endfor %}
+        </div>
+        {% endif %}
+
+        <form method="post">
+            {% csrf_token %}
+            <div class="mb-3">
+                <label for="id_username" class="form-label">Ім'я користувача</label>
+                <input type="text" name="username" class="form-control" id="id_username" required>
+            </div>
+            <div class="mb-3">
+                <label for="id_password" class="form-label">Пароль</label>
+                <input type="password" name="password" class="form-control" id="id_password" required>
+            </div>
+            <button type="submit" class="btn btn-primary w-100">Увійти</button>
+        </form>
+    </div>
+</div>
+<div class="mt-3 text-center">
+    <p>Ще не зареєстровані? <a href="{% url 'register' %}">Створити акаунт</a></p>
+</div>
+{% endblock %}
