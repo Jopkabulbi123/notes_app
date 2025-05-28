@@ -32,8 +32,8 @@ class Note(models.Model):
     text = models.TextField()
     category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True, blank=True)
     reminder = models.DateTimeField(null=True, blank=True)
-    created_at = models.DateTimeField(auto_now_add=True)  # Це поле має бути
-    updated_at = models.DateTimeField(auto_now=True)     # Це поле теж може бути корисним
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return self.title
